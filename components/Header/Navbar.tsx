@@ -18,25 +18,25 @@ const Navbar = () => {
             onClick={unsetToggle}
           />
         )}
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Download
         </li>
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Nitro
         </li>
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Discover
         </li>
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Safety
         </li>
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Support
         </li>
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Blog
         </li>
-        <li className="md:transition-all md:duration-150 hover:cursor-pointer md:hover:-translate-y-1 hover:underline">
+        <li className="cursor-pointer md:transition-all md:duration-150 md:hover:-translate-y-1 hover:underline">
           Careers
         </li>
       </ul>
@@ -46,7 +46,7 @@ const Navbar = () => {
         </button>
         {!open && (
           <GiHamburgerMenu
-            className="md:invisible hover:cursor-pointer"
+            className="cursor-pointer md:invisible"
             onClick={toggle}
           />
         )}
