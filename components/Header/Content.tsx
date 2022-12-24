@@ -19,16 +19,16 @@ const Content = () => {
       </p>
       <div className="flex flex-wrap gap-2">
         <motion.button
-          initial={{ x: -100 }}
-          animate={{ x: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 2 }}
           className="bg-white text-[#23272a] px-6 py-4 rounded-full text-xl flex items-center justify-center gap-1 hover:text-[#5865f2] transition-all duration-150"
         >
           <FiDownload className="font-bold" /> Download for Linux
         </motion.button>
         <motion.button
-          initial={{ x: 100 }}
-          animate={{ x: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 2 }}
           className="bg-[#23272a] text-white px-6 py-4 rounded-full text-xl hover:shadow-xl hover:bg-[hsl(220,7.7%,22.9%)]"
         >
