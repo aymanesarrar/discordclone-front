@@ -1,15 +1,4 @@
-import { UseFormRegister } from "react-hook-form";
-import { Inputs } from "../Register/Form";
-
-interface InputProps {
-  label: string;
-  type?: string;
-  id: string;
-  value?: string;
-  register: UseFormRegister<Inputs>;
-  required?: boolean;
-  inputLabel: "email" | "username" | "password" | "confirmPassword";
-}
+import { InputProps } from "../../types/auth";
 
 const Input: React.FC<InputProps> = ({
   label,

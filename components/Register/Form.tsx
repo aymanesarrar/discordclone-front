@@ -1,12 +1,7 @@
 import Input from "../Input/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { Inputs } from "../../types/auth";
 
-export interface Inputs {
-  email: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-}
 const Form = () => {
   const { register, handleSubmit, watch } = useForm<Inputs>();
 
