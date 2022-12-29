@@ -6,10 +6,12 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
+import { useRouter } from "next/router";
 
 const Form = () => {
   const { register, handleSubmit, watch } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
   const mutation = useMutation((newAccount: Inputs) => {
     return axios.post(`http://localhost:3001/api/v1/register`, newAccount);
   });
@@ -19,8 +21,8 @@ const Form = () => {
       signUpSchema.parse(data);
       mutation.mutate(data, {
         onSuccess: (data, variables, ctx) => {
-          console.log(data);
           setLoading(false);
+          router.push("/login");
         },
         onError: (data, variables, ctx) => {
           console.log(data);
@@ -66,7 +68,7 @@ const Form = () => {
           id="confirmpassword"
         />
 
-        <button className="bg-[#748AD6] text-white px-4 py-2 w-full mt-4">
+        <button className="bg-[#748AD6] text-white px-4 py-2 w-full mt-4 hover:bg-[#6782e4]">
           {loading ? (
             <ImSpinner2 className="mx-auto animate-spin" />
           ) : (
