@@ -26,7 +26,7 @@ const signUpSchema = z
             "password must contain : 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character",
         }
       ),
-    confirmpassword: z
+    confirmPassword: z
       .string({
         required_error: "password is required",
         invalid_type_error: "password must be a string",
@@ -34,11 +34,12 @@ const signUpSchema = z
       .min(8, { message: "password must be at least 8 characters long" })
       .max(256, { message: "very long password" }),
   })
-  .superRefine(({ confirmpassword, password }, ctx) => {
-    if (confirmpassword !== password) {
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
       ctx.addIssue({
         code: "custom",
         message: "The passwords doesn't match",
+        path: ["confirmPassword"],
       });
     }
   });

@@ -1,11 +1,37 @@
 import Input from "../Input/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Inputs } from "../../types/auth";
+import { signUpSchema } from "../../lib/Schema";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { useState } from "react";
+import { ImSpinner2 } from "react-icons/im";
 
 const Form = () => {
   const { register, handleSubmit, watch } = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const [loading, setLoading] = useState<boolean>(false);
+  const mutation = useMutation((newAccount: Inputs) => {
+    return axios.post(`http://localhost:3001/api/v1/register`, newAccount);
+  });
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      setLoading(true);
+      signUpSchema.parse(data);
+      mutation.mutate(data, {
+        onSuccess: (data, variables, ctx) => {
+          console.log(data);
+          setLoading(false);
+        },
+        onError: (data, variables, ctx) => {
+          console.log(data);
+          setLoading(false);
+        },
+      });
+    } catch (error: any) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="grid  grid-cols-1 bg-[#35393E] px-4 py-10 w-full md:w-1/2 text-[#737479]">
@@ -41,7 +67,11 @@ const Form = () => {
         />
 
         <button className="bg-[#748AD6] text-white px-4 py-2 w-full mt-4">
-          register
+          {loading ? (
+            <ImSpinner2 className="mx-auto animate-spin" />
+          ) : (
+            "register"
+          )}
         </button>
       </form>
     </div>
