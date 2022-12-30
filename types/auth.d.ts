@@ -14,3 +14,7 @@ interface InputProps {
   required?: boolean;
   inputLabel: "email" | "username" | "password" | "confirmPassword";
 }
+export interface AuthResponse {
+  type: "success" | "error";
+  message: string;
+}

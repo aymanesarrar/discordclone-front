@@ -1,17 +1,20 @@
 import Input from "../Input/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Inputs } from "../../types/auth";
+import { AuthResponse, Inputs } from "../../types/auth";
 import { signUpSchema } from "../../lib/Schema";
 import { useMutation } from "react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { ImSpinner2 } from "react-icons/im";
-import { useRouter } from "next/router";
+import { Toaster } from "react-hot-toast";
+import { AiFillCheckCircle } from "react-icons/ai";
+import { VscError } from "react-icons/vsc";
+import { notify } from "../../lib/helpers";
+import AuthButton from "../Button/AuthButton";
 
 const Form = () => {
-  const { register, handleSubmit, watch } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
+
   const mutation = useMutation((newAccount: Inputs) => {
     return axios.post(`http://localhost:3001/api/v1/register`, newAccount);
   });
@@ -22,10 +25,15 @@ const Form = () => {
       mutation.mutate(data, {
         onSuccess: (data, variables, ctx) => {
           setLoading(false);
-          router.push("/login");
+          notify(
+            data.data.message,
+            <AiFillCheckCircle className="w-6 h-6 text-green-600" />
+          );
         },
         onError: (data, variables, ctx) => {
-          console.log(data);
+          const error: AxiosError = data as AxiosError;
+          const { message } = error.response?.data as AuthResponse;
+          notify(message, <VscError className="w-6 h-6 text-red-600" />);
           setLoading(false);
         },
       });
@@ -38,6 +46,7 @@ const Form = () => {
   return (
     <div className="grid  grid-cols-1 bg-[#35393E] px-4 py-10 w-full md:w-1/2 text-[#737479]">
       <h1 className="text-xl text-center text-white">Create an account</h1>
+      <Toaster />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           register={register}
@@ -68,13 +77,7 @@ const Form = () => {
           id="confirmpassword"
         />
 
-        <button className="bg-[#748AD6] text-white px-4 py-2 w-full mt-4 hover:bg-[#6782e4]">
-          {loading ? (
-            <ImSpinner2 className="mx-auto animate-spin" />
-          ) : (
-            "register"
-          )}
-        </button>
+        <AuthButton isLoading={loading}>register</AuthButton>
       </form>
     </div>
   );
