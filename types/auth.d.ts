@@ -5,6 +5,12 @@ export interface Inputs {
   password: string;
   confirmPassword: string;
 }
+export interface ProfileInputs {
+  firstname: string;
+  lastname: string;
+  bio: string;
+  picture: string;
+}
 interface InputProps {
   label: string;
   type?: string;
