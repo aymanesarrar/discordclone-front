@@ -53,7 +53,7 @@ const Form = () => {
   };
   return (
     <div className="grid  grid-cols-1 bg-[#35393E] px-4 py-10 w-full md:w-1/2 text-[#737479]">
-      <h1 className="text-xl text-center text-white">Create an account</h1>
+      <h1 className="text-xl text-center text-white">welcome back</h1>
       <Toaster />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input

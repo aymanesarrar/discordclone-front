@@ -43,4 +43,22 @@ const signUpSchema = z
       });
     }
   });
-export { signUpSchema };
+const profileSchema = z.object({
+  firstName: z
+    .string({
+      required_error: "first name is required",
+      invalid_type_error: "first name must be a string",
+    })
+    .regex(/[a-zA-Z]+/),
+  lastName: z
+    .string({
+      required_error: "last name is required",
+      invalid_type_error: "last name must be a string",
+    })
+    .regex(/[a-zA-Z]+/),
+  bio: z.string({
+    required_error: "bio is required",
+    invalid_type_error: "bio must be a string",
+  }),
+});
+export { signUpSchema, profileSchema };

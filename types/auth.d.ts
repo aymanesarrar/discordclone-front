@@ -6,8 +6,8 @@ export interface Inputs {
   confirmPassword: string;
 }
 export interface ProfileInputs {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   bio: string;
   picture: string;
 }

@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["discord.com"],
+    domains: [
+      "discord.com",
+      "xizrnnflqgzdyahkwtrr.supabase.co",
+      "xizrnnflqgzdyahkwtrr.supabase.co/storage/",
+    ],
   },
 };
 
