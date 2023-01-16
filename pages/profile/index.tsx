@@ -1,13 +1,25 @@
+import { JwtPayload } from "jsonwebtoken";
+import { getUserIdFromJwt, isCompleted } from "../../lib/jwt";
+import jwt from "jsonwebtoken";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { getUserIdFromJwt, isCompleted } from "../lib/jwt";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { useQuery } from "react-query";
+import { getUserProfile } from "../../lib/queries";
+import { getCookie } from "cookies-next";
 
-const Chat = ({ user }: InferGetServerSidePropsType<GetServerSideProps>) => {
-  console.log(user);
-  return <div>{user.username}</div>;
+const Profile = ({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const {
+    isLoading,
+    error,
+    data: profile,
+  } = useQuery("profile", () =>
+    getUserProfile(user.id, getCookie("JWToken") as string)
+  );
+  console.log(profile);
+  return <div className="min-h-screen bg-[#36393F]"></div>;
 };
-export { Chat as default };
-
+export { Profile as default };
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const token = context.req.headers.cookie?.split("=")[1];
 
@@ -23,7 +35,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       if (!user) throw "invalid jwt";
       const data = await isCompleted(user.id, token);
       if (!data) throw "user not found";
-
       return {
         props: {
           user: data.data,
