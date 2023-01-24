@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import api from "./api";
 import { instance } from "./axiosInstance";
 
 const getUserIdFromJwt = (token: string | undefined) => {
@@ -10,8 +11,7 @@ const getUserIdFromJwt = (token: string | undefined) => {
 };
 const isCompleted = async (userId: string, token: string) => {
   try {
-    const user = await instance({
-      url: `/user/${userId}`,
+    const user = await api.get(`/user/${userId}`, {
       headers: {
         Authorization: "Bearer " + token,
       },

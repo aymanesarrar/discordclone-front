@@ -1,6 +1,6 @@
 import Input from "../Input/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { AuthResponse, Inputs } from "../../types/auth";
+import { AuthResponse, extendedPayload, Inputs } from "../../types/auth";
 import { signUpSchema } from "../../lib/Schema";
 import { useMutation } from "react-query";
 import axios, { AxiosError } from "axios";
@@ -12,11 +12,14 @@ import { notify } from "../../lib/helpers";
 import AuthButton from "../Button/AuthButton";
 import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import { useRecoilState } from "recoil";
+import { Token } from "../../lib/atoms";
 
 const Form = () => {
   const { register, handleSubmit } = useForm<Inputs>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [token, setToken] = useRecoilState(Token);
 
   const mutation = useMutation((newAccount: Inputs) => {
     return axios.post(`http://localhost:3001/api/v1/login`, newAccount);
@@ -33,7 +36,7 @@ const Form = () => {
             <AiFillCheckCircle className="w-6 h-6 text-green-600" />
           );
           setCookie("JWToken", data.data.token);
-
+          setToken(data.data.token);
           router.push("/chat");
         },
         onError: (data, variables, ctx) => {

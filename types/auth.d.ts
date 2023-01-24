@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import { UseFormRegister } from "react-hook-form";
 export interface Inputs {
   email: string;
@@ -23,4 +24,10 @@ interface InputProps {
 export interface AuthResponse {
   type: "success" | "error";
   message: string;
+}
+export interface extendedPayload extends JwtPayload {
+  username: string;
+  id: string;
+  role: "USER" | "ADMIN";
+  created_at: string;
 }

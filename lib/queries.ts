@@ -8,4 +8,12 @@ const getUserProfile = async (id: string, token: string) => {
   });
   return await getData.data;
 };
-export { getUserProfile };
+const getUserData = async (id: string, token: string) => {
+  const getData = await api.get(`/user/${id}`, {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+  return await getData.data;
+};
+export { getUserProfile, getUserData };
