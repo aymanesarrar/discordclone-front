@@ -4,11 +4,12 @@ import jwt from "jsonwebtoken";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useQuery } from "react-query";
 import { getUserProfile } from "../../lib/queries";
-import { getCookie } from "cookies-next";
+import { getCookie, removeCookies } from "cookies-next";
 import { FaDiscord } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import useClient from "../../hooks/useClient";
 import Loading from "../../components/Loading";
+import { useRouter } from "next/router";
 
 const Profile = ({
   user,
@@ -20,8 +21,12 @@ const Profile = ({
   } = useQuery("profile", () =>
     getUserProfile(user.id, getCookie("JWToken") as string)
   );
+  const router = useRouter();
   if (isLoading) return <Loading />;
-
+  const handleLogout = () => {
+    removeCookies("JWToken");
+    router.push("/login");
+  };
   return (
     <div className="min-h-screen bg-[#36393F] flex flex-col relative">
       <header className="flex justify-between p-2">
@@ -37,7 +42,10 @@ const Profile = ({
             account
           </li>
         </ul>
-        <button className="flex w-full p-2 font-bold text-red-500 hover:bg-white hover:bg-opacity-10 rounded-xl">
+        <button
+          onClick={handleLogout}
+          className="flex w-full p-2 font-bold text-red-500 hover:bg-white hover:bg-opacity-10 rounded-xl"
+        >
           Logout
         </button>
       </div>
