@@ -10,10 +10,14 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import useClient from "../../hooks/useClient";
 import Loading from "../../components/Loading";
 import { useRouter } from "next/router";
+import { useRef, useState } from "react";
+import useOutsideEffect from "../../hooks/useOutsideEffect";
 
 const Profile = ({
   user,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [sidebar, setSidebar] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   const {
     isLoading,
     error,
@@ -22,6 +26,7 @@ const Profile = ({
     getUserProfile(user.id, getCookie("JWToken") as string)
   );
   const router = useRouter();
+  useOutsideEffect(ref, setSidebar, false);
   if (isLoading) return <Loading />;
   const handleLogout = () => {
     removeCookies("JWToken");
@@ -29,11 +34,19 @@ const Profile = ({
   };
   return (
     <div className="min-h-screen bg-[#36393F] flex flex-col relative">
-      <header className="flex justify-between p-2">
-        <GiHamburgerMenu className="text-[#7289DA] h-10 w-10 cursor-pointer md:invisible" />
+      <header className="flex justify-between p-2 min-h-[10vh]">
+        <GiHamburgerMenu
+          onClick={() => setSidebar(!sidebar)}
+          className="text-[#7289DA] h-10 w-10 cursor-pointer md:invisible"
+        />
         <FaDiscord className="text-[#7289DA] h-10 w-10" />
       </header>
-      <div className="flex items-center justify-between p-10 flex-col absolute inset-y-0 left-0 bg-[#2F3136] w-1/3 md:w-[20%]">
+      <div
+        ref={ref}
+        className={`${
+          !sidebar && "invisible"
+        } flex items-center justify-between p-10 flex-col absolute inset-y-0 left-0 bg-[#2F3136] w-1/3 md:w-[20%]`}
+      >
         <ul className="flex flex-col w-full gap-6 text-white ">
           <li className="p-2 cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl">
             profile
@@ -48,6 +61,9 @@ const Profile = ({
         >
           Logout
         </button>
+      </div>
+      <div className="flex items-center justify-center flex-1 border-2 border-white">
+        <h1 className="font-bold text-white">testing</h1>
       </div>
     </div>
   );
