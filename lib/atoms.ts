@@ -16,4 +16,12 @@ const userId = selector({
     return getUserIdFromJwt(token) as extendedPayload;
   },
 });
-export { Token, userId };
+const isOpenModal = atom({
+  key: "isOpenModal",
+  default: false,
+});
+const fieldToUpdate = atom({
+  key: "fieldToUpdate",
+  default: "",
+});
+export { Token, userId, isOpenModal, fieldToUpdate };

@@ -1,3 +1,4 @@
+import { Profile } from "../types/profile";
 import api from "./api";
 
 const getUserProfile = async (id: string, token: string) => {
@@ -6,7 +7,11 @@ const getUserProfile = async (id: string, token: string) => {
       Authorization: "Bearer " + token,
     },
   });
-  return await getData.data;
+  const data = (await getData.data) as Promise<{
+    type: "success";
+    data: Profile;
+  }>;
+  return (await getData.data) as Promise<{ type: "success"; data: Profile }>;
 };
 const getUserData = async (id: string, token: string) => {
   const getData = await api.get(`/user/${id}`, {

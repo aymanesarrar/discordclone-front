@@ -12,6 +12,9 @@ import Loading from "../../components/Loading";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import useOutsideEffect from "../../hooks/useOutsideEffect";
+import { Profile } from "../../types/profile";
+import Box from "../../components/Input/Box";
+import Modal from "../../components/Modal/Modal";
 
 const Profile = ({
   user,
@@ -22,7 +25,7 @@ const Profile = ({
     isLoading,
     error,
     data: profile,
-  } = useQuery("profile", () =>
+  } = useQuery<{ type: string; data: Profile }, any>("profile", () =>
     getUserProfile(user.id, getCookie("JWToken") as string)
   );
   const router = useRouter();
@@ -34,6 +37,11 @@ const Profile = ({
   };
   return (
     <div className="min-h-screen bg-[#36393F] flex flex-col relative">
+      <Modal
+        title="update profile"
+        description="this will let you update your profile"
+        body="are you sure you wanna update your profile ? this action is irreversible"
+      />
       <header className="flex justify-between p-2 min-h-[10vh]">
         <GiHamburgerMenu
           onClick={() => setSidebar(!sidebar)}
@@ -45,7 +53,7 @@ const Profile = ({
         ref={ref}
         className={`${
           !sidebar && "invisible"
-        } flex items-center justify-between p-10 flex-col absolute inset-y-0 left-0 bg-[#2F3136] w-1/3 md:w-[20%]`}
+        } flex items-center justify-between p-10 flex-col absolute inset-y-0 left-0 bg-[#2F3136] w-1/3 md:w-[20%] md:visible`}
       >
         <ul className="flex flex-col w-full gap-6 text-white ">
           <li className="p-2 cursor-pointer hover:bg-white hover:bg-opacity-10 rounded-xl">
@@ -62,8 +70,20 @@ const Profile = ({
           Logout
         </button>
       </div>
-      <div className="flex items-center justify-center flex-1 border-2 border-white">
-        <h1 className="font-bold text-white">testing</h1>
+      <div className="flex items-center justify-center flex-1 ">
+        <div className="bg-[#202225] w-full flex flex-col justify-center items-center gap-2 p-4">
+          <Box
+            field="firstName"
+            title="First Name"
+            data={profile?.data.firstName}
+          />
+          <Box
+            field="lastName"
+            title="Last Name"
+            data={profile?.data.lastName}
+          />
+          <Box field="bio" title="Bio" data={profile?.data.bio} />
+        </div>
       </div>
     </div>
   );
