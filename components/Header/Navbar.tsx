@@ -2,6 +2,7 @@ import useToggle from "../../hooks/useToggle";
 import Discord from "./Discord";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { GrClose } from "react-icons/gr";
+import Link from "next/link";
 const Navbar = () => {
   const { open, toggle, unsetToggle } = useToggle(false);
   return (
@@ -42,7 +43,7 @@ const Navbar = () => {
       </ul>
       <div className="flex items-center justify-around flex-[0.5] md:justify-center">
         <button className="px-4 py-2 hover:text-[#5865f2] font-normal text-black bg-white rounded-3xl shadow-lg transition-all duration-150">
-          Open Discorda
+          <Link href="/login">Open Discorda</Link>
         </button>
         {!open && (
           <GiHamburgerMenu

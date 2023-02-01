@@ -25,9 +25,10 @@ const Profile = ({
     isLoading,
     error,
     data: profile,
-  } = useQuery<{ type: string; data: Profile }, any>("profile", () =>
-    getUserProfile(user.id, getCookie("JWToken") as string)
-  );
+  } = useQuery<{ type: string; data: Profile }, any>({
+    queryKey: ["profile"],
+    queryFn: () => getUserProfile(user.id, getCookie("JWToken") as string),
+  });
   const router = useRouter();
   useOutsideEffect(ref, setSidebar, false);
   if (isLoading) return <Loading />;
@@ -91,7 +92,6 @@ const Profile = ({
 export { Profile as default };
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const token = context.req.headers.cookie?.split("=")[1];
-
   try {
     const verified = jwt.verify(
       token as string,
